@@ -1,0 +1,38 @@
+.table-data {
+    .row {
+        padding: .8em .5em;
+        cursor: pointer;
+    }
+
+    .contact-name {
+        font-weight: 500;
+        line-height: 1;
+    }
+
+    .contact-email {
+        font-size: .9em;
+    }
+
+    .basic-info {
+        display: flex;
+    }
+
+    .contact-info {
+        margin-left: 1em;
+    }
+
+}
+
+.table-data:nth-child(odd) {
+    background-color: #eef0f0;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .table-data {
+        .company-row {
+            display: none;
+        }
+    }
+}
