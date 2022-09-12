@@ -97,6 +97,12 @@ function Contact(props) {
                                         <div className='col-md-8'>
                                             <span className='info'>{activeContact.phone}</span>
                                         </div>
+                                        <div className='col-md-4'>
+                                            Company :
+                                        </div>
+                                        <div className='col-md-8'>
+                                            <span className='info'>{activeContact.company}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

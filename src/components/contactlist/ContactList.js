@@ -36,7 +36,7 @@ function ContactList(props) {
                                     </div>
                                 </div>
                                 <div className='col-5 company-row'>
-                                    <div>{contact.name}</div>
+                                    <div>{contact.company}</div>
                                 </div>
                             </div>
                         </div>

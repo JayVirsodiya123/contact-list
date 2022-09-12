@@ -4,7 +4,7 @@ import { ContactContext } from '../../App';
 
 function ContactForm(props) {
 
-    const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '' });
+    const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', company: '' });
     const [error, setError] = useState('');
 
     const { addNewContacts, contacts } = useContext(ContactContext);
@@ -32,6 +32,9 @@ function ContactForm(props) {
         } else if(!(/^\d{10}$/.test(contactForm.phone)|| /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/.test(contactForm.phone))){
             setError('Enter valid phone number');
             return;
+        } else if(!contactForm.company){
+            setError('Company name is required');
+            return;
         }
         
         const id = contacts.length + 1;
@@ -39,7 +42,8 @@ function ContactForm(props) {
             id,
             name : contactForm.name,
             email: contactForm.email,
-            phone: contactForm.phone
+            phone: contactForm.phone,
+            company:  contactForm.company
         }
         addNewContacts(contact);
         setContactForm({ name: '', email: '', phone: '' })
@@ -69,6 +73,11 @@ function ContactForm(props) {
                         <label >Phone</label>
                         <input type="text" name='phone' value={contactForm.phone} onChange={onContactFormChange} className="form-control" placeholder="Phone" />
                     </div>
+                    <div className="form-group">
+                        <label >Company Name</label>
+                        <input type="text" name='company' value={contactForm.company} onChange={onContactFormChange} className="form-control" placeholder="Company Name" />
+                    </div>
+
 
                 </Modal.Body>
                 <Modal.Footer>
