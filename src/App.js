@@ -38,18 +38,19 @@ function App() {
     searchContact,
     setSelectedContact,
     addNewContacts,
-    activeContact
+    activeContact,
+    setContacts
   }
 
   return (
     <div>
-      <ContactContext.Provider value={contactActions}>
-        <Sidebar></Sidebar>
-        <TopNavBar></TopNavBar>
-        <div className='App-container'>
+      <Sidebar></Sidebar>
+      <TopNavBar></TopNavBar>
+      <div className='App-container'>
+        <ContactContext.Provider value={contactActions}>
           <Contact></Contact>
-        </div>
-      </ContactContext.Provider>
+        </ContactContext.Provider>
+      </div>
     </div>
   );
 }

@@ -8,21 +8,28 @@ import { useContext } from 'react';
 function ContactList(props) {
     const { contacts, activeContact, setSelectedContact } = useContext(ContactContext);
 
-   
+
 
     const onContactSelect = (contact) => {
         setSelectedContact({ ...contact });
     }
+    const  onCheckChange = (evt) => {
+        if(!evt.target.checked){
+            setSelectedContact({  });
+            evt.stopPropagation();
+        }
+    }
 
     return (
         <>
+            {!(contacts.length) && <div className='d-flex justify-content-center align-items-center p-4 fw-bold'>No Contact Found !</div>}
             {
                 contacts.map((contact) => {
                     return (
                         <div key={contact.id} className='table-data'>
-                            <div onClick={() => onContactSelect(contact)} className='row'>
+                            <div onClick={() => onContactSelect(contact)} className='row align-items-center'>
                                 <div className='col-2'>
-                                    <div><input checked={activeContact.id === contact.id} onChange={()=>{}} type='checkbox'></input></div>
+                                    <div><input checked={activeContact.id === contact.id} onChange={(evt) => { onCheckChange(evt)  }} type='checkbox'></input></div>
                                 </div>
                                 <div className='col-5'>
                                     <div className='basic-info'>

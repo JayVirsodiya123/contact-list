@@ -4,10 +4,31 @@ import { ContactContext } from '../../App';
 
 function ContactForm(props) {
 
-    const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', company: '' });
+    const { addNewContacts, activeContact, contacts, setContacts, setSelectedContact } = useContext(ContactContext);
+    let initContactValue;
+    if(props.mode && props.mode === 'edit' && activeContact.id){
+        initContactValue = {
+            id: activeContact.id,
+            name:  activeContact.name,
+            email:  activeContact.email,
+            phone: activeContact.phone,
+            company: activeContact.company
+        }
+    } else {
+        initContactValue = {
+            id: '',
+            name:  '',
+            email:  '',
+            phone: '',
+            company: ''
+        }
+    }
+    console.log(initContactValue);
+
+    const [contactForm, setContactForm] = useState({...initContactValue});
     const [error, setError] = useState('');
 
-    const { addNewContacts, contacts } = useContext(ContactContext);
+   
 
     const onContactFormChange = (evt) => {
         if(error){
@@ -23,7 +44,7 @@ function ContactForm(props) {
         } else if(!contactForm.email.trim()){
             setError('Email is required');
             return;
-        } else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(contactForm.email))){
+        } else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(contactForm.email))){
             setError('Enter valid email');
             return;
         } else if(!contactForm.phone.trim()) {
@@ -37,22 +58,40 @@ function ContactForm(props) {
             return;
         }
         
-        const id = contacts.length + 1;
-        const contact = {
-            id,
-            name : contactForm.name,
-            email: contactForm.email,
-            phone: contactForm.phone,
-            company:  contactForm.company
-        }
-        addNewContacts(contact);
-        setContactForm({ name: '', email: '', phone: '' })
-        props.setContactModal(false)
+        if(props.mode  === 'new'){
+
+            const id = contacts.length + 1;
+            const contact = {
+                id,
+                name : contactForm.name,
+                email: contactForm.email,
+                phone: contactForm.phone,
+                company:  contactForm.company
+            }
+            addNewContacts(contact);
+            setContactForm({ id: '', name: '', email: '', phone: '', company: '' })
+            props.setContactModal(false)
+
+       } else if(props.mode  === 'edit') {
+            const contactList = [...contacts];
+            const contactIndex = contactList.findIndex((ele)=> ele.id === contactForm.id);
+            const contact = {...contacts[contactIndex], 
+                name: contactForm.name,
+                email: contactForm.email, 
+                phone: contactForm.phone,
+                company: contactForm.company
+            };
+            contactList[contactIndex] = contact;
+            setSelectedContact(contact);
+            setContacts(contactList);
+            props.setContactModal(false)
+
+       }
     }
 
     return (
         <div>
-            <Modal size='sm' show={props.contactModal} onHide={() => props.setContactModal(false)}>
+            <Modal size='sm' show={true} onHide={() => props.setContactModal(false)}>
                 <Modal.Header closeButton>
                 </Modal.Header>
                 <Modal.Body>

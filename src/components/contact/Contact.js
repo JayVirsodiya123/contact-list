@@ -11,20 +11,29 @@ import ContactForm from '../contactform/ContactForm';
 
 function Contact(props) {
 
-    const { searchContact, activeContact} = useContext(ContactContext);
+    const { searchContact, activeContact } = useContext(ContactContext);
 
-    
+
 
 
     const [contactModal, setContactModal] = useState(false);
+    const [formMode, setFormMode ] = useState('new');
 
     const onSearchChange = (evt) => {
         searchContact(evt.target.value);
     }
 
-   
+    const onContactModalClose  = (isOpen, mode = 'new') => {
+        setContactModal(isOpen);
+        setFormMode(mode);
+        
+    }
 
-   
+    const  onContactEdit = () => {
+        setFormMode('edit');
+        setContactModal(true);
+    }
+
 
     return (
         <div className='container-fluid'>
@@ -69,6 +78,9 @@ function Contact(props) {
                     {activeContact.id &&
                         <div className='col-md-12 col-lg-6'>
                             <div className='contact-detail' id="contact-detail-view">
+                                <div className='d-flex justify-content-end pe-4'>
+                                    <button type="button" className="btn btn-secondary" onClick={()=>{onContactEdit()}}>Edit</button>
+                                </div>
                                 <div className='d-flex  align-items-center flex-column p-4'>
                                     <Avatar initials={activeContact.name} size={100} fontSize={34}></Avatar>
                                     <div>
@@ -110,7 +122,7 @@ function Contact(props) {
                     }
                 </div>
             </div>
-            <ContactForm contactModal={contactModal} setContactModal={setContactModal}></ContactForm>
+            {contactModal && <ContactForm mode={formMode} setContactModal={onContactModalClose}></ContactForm>}
         </div>
     );
 }
