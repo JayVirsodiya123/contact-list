@@ -22,7 +22,7 @@ function ContactList(props) {
 
     return (
         <>
-            {!(contacts.length) && <div className='d-flex justify-content-center align-items-center p-4 fw-bold'>No Contact Found !</div>}
+            
             {
                 contacts.map((contact) => {
                     return (

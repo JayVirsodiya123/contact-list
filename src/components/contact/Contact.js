@@ -11,16 +11,21 @@ import ContactForm from '../contactform/ContactForm';
 
 function Contact(props) {
 
-    const { searchContact, activeContact } = useContext(ContactContext);
+    const { searchContact, contacts, activeContact } = useContext(ContactContext);
 
-
-
+    let searchTimeout ;
 
     const [contactModal, setContactModal] = useState(false);
     const [formMode, setFormMode ] = useState('new');
 
     const onSearchChange = (evt) => {
-        searchContact(evt.target.value);
+        if(searchTimeout){
+            clearTimeout(searchTimeout);
+        }
+       searchTimeout =  setTimeout(()=>{
+            searchContact(evt.target.value);
+        },1000)
+        
     }
 
     const onContactModalClose  = (isOpen, mode = 'new') => {
@@ -72,7 +77,9 @@ function Contact(props) {
                             </div>
                         </div>
                         <>
-                            <ContactList />
+                        {!(contacts.length) && <div className='d-flex justify-content-center align-items-center p-4 fw-bold'>No Contact Found !</div>}
+                        {!(!contacts.length) && <ContactList />}
+                            
                         </>
                     </div>
                     {activeContact.id &&

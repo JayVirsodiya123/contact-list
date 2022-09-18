@@ -23,7 +23,7 @@ function ContactForm(props) {
             company: ''
         }
     }
-    console.log(initContactValue);
+  
 
     const [contactForm, setContactForm] = useState({...initContactValue});
     const [error, setError] = useState('');
